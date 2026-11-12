@@ -4,9 +4,9 @@ p_load(quanteda, nsyllable, tidyverse)
 
 # Functions ----
 flesch_score <- function(passage) {
-  sentences <- nsentence(passage)
+  sentences <- ntoken(tokens(passage, what = "sentence"))
   syllables <- nsyllable(passage)
-  words <- ntoken(passage, remove_punct = T)
+  words <- ntoken(tokens(passage, remove_punct = T))
   
   words_sentences <- - (1.015 * (words / sentences))
   syllables_words <- - (84.6 * (syllables / words))
@@ -28,9 +28,9 @@ flesch_score <- function(passage) {
   )
 }
 flesch_grade <- function(passage) {
-  sentences <- nsentence(passage)
+  sentences <- ntoken(tokens(passage, what = "sentence"))
   syllables <- nsyllable(passage)
-  words <- ntoken(passage, remove_punct = T)
+  words <- ntoken(tokens(passage, remove_punct = T))
   
   fgl <- 0.39 * (words / sentences) + 11.8 * (syllables / words) - 15.59
   
@@ -47,8 +47,8 @@ wiki_long_valid <- # Marcel Proust
 
 ## Flesch-Kincaid Reading Ease score ##
 flesch_score(longest_sent_philo)
-flesch_score(wiki_short_valid)
-flesch_score(wiki_long_valid)
+flesch_score(wiki_short_valid) # fine
+flesch_score(wiki_long_valid) # discrepancy with wikipedia figure (~1%)
 
 ## Flesch-Kincaid Grade Level
 flesch_grade(wiki_short_valid)
